@@ -13,20 +13,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Шаг 1: Проверка кода из репозитория
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Шаг 2: Установка Python
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.10  
+          python-version: 3.10  # Убедитесь, что указана актуальная версия
 
-      # Шаг 3: Установка Bandit
       - name: Install Bandit
         run: pip install bandit
 
-      # Шаг 4: Запуск анализа безопасности
       - name: Run Bandit
         run: bandit -r . --exclude static/
