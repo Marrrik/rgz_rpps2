@@ -30,4 +30,3 @@ jobs:
       # Шаг 4: Запуск анализа безопасности
       - name: Run Bandit
         run: bandit -r . --exclude static/
-
