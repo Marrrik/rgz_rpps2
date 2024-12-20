@@ -12,20 +12,17 @@ jobs:
   lab3:
     runs-on: ubuntu-latest
     steps:
-      # Шаг 1: Клонирование репозитория
+
       - name: Checkout code
         uses: actions/checkout@v4
       
-      # Шаг 2: Установка Python
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.11 # Укажите поддерживаемую версию Python
+          python-version: 3.11
 
-      # Шаг 3: Установка Bandit
       - name: Install Bandit
         run: pip install bandit
 
-      # Шаг 4: Запуск анализа безопасности с Bandit
       - name: Check security with Bandit
         run: bandit -r .
