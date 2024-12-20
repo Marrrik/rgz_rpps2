@@ -20,7 +20,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.10  # Укажите поддерживаемую версию Python
+          python-version: 3.11 # Укажите поддерживаемую версию Python
 
       # Шаг 3: Установка Bandit
       - name: Install Bandit
