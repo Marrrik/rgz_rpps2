@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> {% block lab%} {% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css')}}">
+    {% if request.cookies.get('color') %}
+    <style>
+        body {
+            color: {{ request.cookies.get('color')}};
+            background-color: {{request.cookies.get('backgroundColor')}};
+            font-size: {{request.cookies.get('fontSize')}}px
+        }
+    </style>
+    {% endif %}
+    {% block script %}{% endblock %}
+</head>
+<body>
+    <header>
+        rpp{{ self.lab() }}
+    </header>
+
+    <main>
+        {% block main %}{% endblock %}
+    </main>
+
+    <footer>
+        &copy; РПП, 4 курс, 2024
+    </footer>
+    
+</body>
+</html>

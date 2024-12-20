@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block lab %} Расчетно-графическое задание {% endblock %}
+
+{% block main %}
+<link rel="stylesheet" href="{{ url_for('static', filename='rgz.css') }}">
+
+<div class="glav_verh">
+    <div style="display: inline; color: rgb(75, 75, 251); height: 30px; font-size: 16pt; font-weight: bold;">
+        Статья
+    </div>
+    <div class="container">
+        <a href="/rgz/initiative">Посмотреть статьи</a>
+        <a href="/rgz/newarticle">Создать статью</a>
+    </div>
+    <form action="/rgz/logout">
+        <button class="button1" type="submit">Выйти</button>
+    </form>
+    <form action="/rgz/login">
+        <button class="button1" type="submit">Логин</button>
+    </form>
+    <form style="margin-left: 5%;" action="/rgz/register">
+        <button class="button1" type="submit">Регистрация</button>
+    </form>
+
+    {% if current_user.username %}
+        <div style="font-weight: bold; margin-left: 1%;">
+            {{ current_user.username }}
+        </div>
+    {% else %}
+        <div style="font-weight: bold;">Anon</div>
+    {% endif %}
+</div>
+
+<!-- Вывод списка инициатив -->
+{% for initiative in initiatives.items %}
+<li>
+    <div>
+        <h3>статья №{{ loop.index }}</h3>
+        <p>{{ initiative.title }}</p>
+        <p>Дата создания: {{ initiative.date_created }}</p>
+        <p>Автор: {{ initiative.user.username }}</p>
+        <p>Голосов "За": {{ initiative.likes if initiative.likes is not none else 0 }}</p>
+        <p>Голосов "Против": {{ -initiative.likes if initiative.likes is not none else 0 }}</p>
+        <p>Общее количество голосов: {{ initiative.likes or 0 }}</p>
+        <a href="{{ url_for('rgz.getArticle', article_id=initiative.id) }}" class="btn btn-info">
+            Перейти к статье
+        </a>
+        {% if current_user.is_authenticated %}
+        <form action="{{ url_for('rgz.vote', article_id=initiative.id) }}" method="POST">
+            <input type="hidden" name="_method" value="POST">
+            <button type="submit" name="vote" value="up" class="btn btn-success">За</button>
+            <button type="submit" name="vote" value="down" class="btn btn-danger">Против</button>
+        </form>
+        {% endif %}
+                <!-- Кнопка для редактирования (отображается только для автора статьи) -->
+                {% if current_user.id == initiative.user_id %}
+                <form action="{{ url_for('rgz.editArticle', article_id=initiative.id) }}" method="POST">
+                    <input type="hidden" name="_method" value="PUT">
+                    <input type="text" name="title" placeholder="Введите заголовок">
+                    <textarea name="text" placeholder="Введите текст"></textarea>
+                    <button type="submit">Редактировать</button>
+                </form>
+                <!-- Кнопка удаления статьи (отображается только для автора статьи) -->
+                <form action="{{ url_for('rgz.deleteArticle', article_id=initiative.id) }}" method="POST">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit" class="btn btn-danger">Удалить</button>
+                </form>
+            {% endif %}
+    </div>
+</li>
+{% endfor %}
+
+<!-- Пагинация -->
+<div class="more-initiatives">
+    {% if initiatives.has_next %}
+        <a href="{{ url_for('rgz.getInitiatives', page=initiatives.next_num) }}">Еще</a>
+    {% endif %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block lab %} Расчетно-графическое задание {% endblock %}
+
+{% block main %}
+<link rel="stylesheet" href="{{ url_for('static', filename='rgz.css')}}">
+
+    <div class="container">
+    <a href="/rgz/initiative">Посмотреть статьи</a>
+    <a href="/rgz/newarticle">Создать статью</a>
+    </div>
+    <form action="/rgz/logout">
+        <button class="button1" type="submit">Выйти</button>
+    </form>
+    <form action="/rgz/login">
+        <button class="button1" type="submit">Логин</button>
+    </form>
+    <form style="margin-left: 5%;" action="/rgz/register">
+        <button class="button1" type="submit">Регистрация</button>
+    </form>
+
+        {% if current_user.username %}
+            <div style="font-weight: bold;
+                        margin-left: 1%;" 
+            >
+            {{ current_user.username }}</div>
+        {% else %}
+            <div style="font-weight: bold;">Anon</div>
+        {% endif %}
+
+    </div>
+
+    <div>
+        <h1>Новая статья</h1>
+
+        <form method="post" style="display: block;"> 
+            <div class="name">
+                <input type="text" class="input-field" name="title" placeholder="Название статьи">
+            </div> 
+            <div class="name">                                                                                              
+                <textarea name="text" class="textstate" placeholder="Текст статьи" rows="20" style="width: 300px;
+                margin-top: 15px;
+                margin-bottom: 20px;"></textarea>
+            </div>
+                <input type="submit" value="Apply"/>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}

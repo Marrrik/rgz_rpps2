@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block lab %} Расчетно-графическое задание {% endblock %}
+
+{% block main %}
+<h1>Редактирование статьи</h1>
+    <form action="{{ url_for('rgz.editArticle', article_id=initiative.id) }}" method="post">
+        <label for="title">Заголовок:</label>
+        <input type="text" name="title" id="title" value="{{ initiative.title }}" required>
+        <br>
+        <label for="text">Текст статьи:</label>
+        <textarea name="text" id="text" rows="10" required>{{ initiative.article_text }}</textarea>
+        <br>
+        <button type="submit">Сохранить изменения</button>
+    </form>
+{% endblock %}

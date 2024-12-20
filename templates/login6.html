@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block lab %} Расчетно-графическое задание {% endblock %}
+
+{% block main %}
+<link rel="stylesheet" href="{{ url_for('static', filename='rgz.css')}}">
+<div class="container4">
+    <div class="ramk">
+    <h2>Пожалуйста, авторизуйтесь</h2>
+    <div>
+        {% for error in errors %}
+            {{ error }}
+        {% endfor %}
+    </div>
+    <form method="post">
+        <div>
+            <label for="username">Пользователь</label>
+            <input class="pole" type="text" id="username" name="username" value="{{ username or '' }}">
+        </div>
+        <div>
+            <label for="password">Пароль</label>
+            <input class="pole" type="password" id="password" name="password" value="{{ password or '' }}">
+        </div>
+        <div>
+            <button type="submit">Войти</button>
+            <button type="reset">Отмена</button>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </form>
+    </div>
+</div>
+{% endblock %}

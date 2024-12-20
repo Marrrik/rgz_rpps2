@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block lab %} Расчетно-графическое задание {% endblock %}
+
+{% block main %}
+<link rel="stylesheet" href="{{ url_for('static', filename='rgz.css')}}">
+<div>
+    <div style="display: inline; color: rgb(75, 75, 251);height: 30px;font-size: 16pt;font-weight: bold;">
+        статьи
+    </div>
+    <div class="container">
+        <a href="/rgz/initiative">Посмотреть статьи</a>
+        <a href="/rgz/newarticle">Создать статью</a>
+    </div>
+    <form action="/rgz/logout">
+        <button class="button1" type="submit">Выйти</button>
+    </form>
+    <form action="/rgz/login">
+        <button class="button1" type="submit">Логин</button>
+    </form>
+    <form style="margin-left: 5%;" action="/rgz/register">
+        <button class="button1" type="submit">Регистрация</button>
+    </form>
+
+    {% if current_user.username %}
+        <div style="font-weight: bold; margin-left: 1%; float: right; ">
+            {{ current_user.username}}
+        </div>
+    {% else %}
+        <div style="font-weight: bold;">Anon</div>
+    {% endif %}
+</div>
+
+{% if initiatives %}
+    <h1>Все записи</h1>
+    {% for initiative in initiatives %}
+        <div class="initiative">
+            <h2>{{ initiative.title }}</h2>
+            <p>{{ initiative.article_text }}</p>
+            <p>Автор: {{ initiative.user.username }}</p>
+        </div>
+    {% endfor %}
+{% endif %}
+
+{% endblock %}

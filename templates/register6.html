@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block lab %} Расчетно-графическое задание {% endblock %}
+
+{% block main %}
+<link rel="stylesheet" href="{{ url_for('static', filename='rgz.css')}}">
+<div class="container4">
+    <div class="ramk">
+      <form method="post">
+        <h1>Регистрация пользователя!</h1>
+
+        <div>
+          <input class="pole" type="text" name="username" placeholder="username">
+        </div>
+
+        <div>
+          <input class="pole" type="password" name="password" placeholder="password">
+        </div>
+
+
+      {% for error in errors %}
+        {{ error }}
+      {% endfor %}
+
+      <button class="pole" type="submit">Зарегистрироваться</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
