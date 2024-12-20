@@ -144,7 +144,7 @@ def login6():
         return render_template("login6.html"), 500
 
 
-@rgz.route("/rgz/artic", methods=['GET']) # О бля, сюда нам надо, переписать всё нахзй!!!!!!!
+@rgz.route("/rgz/artic", methods=['GET'])
 def art():
     page = request.args.get('page', 1, type=int)
     per_page = 20

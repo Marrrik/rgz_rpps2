@@ -35,7 +35,6 @@ login_manager.init_app(app)
 def load_users(user_id):
     return users.query.get(int(user_id))
 
-# Перемещенный импорт
 from rgz import rgz
 
 app.register_blueprint(rgz)
