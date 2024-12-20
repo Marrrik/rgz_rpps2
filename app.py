@@ -10,8 +10,7 @@ app = Flask(__name__)
 
 load_dotenv()  # Загрузка переменных из .env
 
-app.secret_key = '123'
-
+app.secret_key = os.getenv("APP_SECRET_KEY", "default_secret_key")
 user_db = os.getenv('USER_DB', 'default_user')
 host_ip = os.getenv('HOST_IP', '127.0.0.1')
 host_port = os.getenv('HOST_PORT', '5432')
@@ -40,4 +39,4 @@ from rgz import rgz
 app.register_blueprint(rgz)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

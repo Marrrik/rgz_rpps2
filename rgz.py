@@ -62,7 +62,7 @@ def register():
         errors.append("Пожалуйста заполните все поля")
         print(errors)
         return render_template('register6.html', errors=errors)
-    if password_form == '':
+    if not password_form.strip():
         errors.append("Пожалуйста заполните все поля")
         print(errors)
         return render_template('register6.html', errors=errors)
