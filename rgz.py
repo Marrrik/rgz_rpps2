@@ -20,11 +20,9 @@ limiter = Limiter(
 
 rgz = Blueprint('rgz', __name__)
 
-# Хранение информации о блокировке пользователей и IP
 blocked_users = {}
 blocked_ips = {}
 
-# Ограничения
 MAX_ATTEMPTS = 5
 USER_BLOCK_TIME = timedelta(minutes=5)
 IP_BLOCK_TIME = timedelta(minutes=15)
@@ -247,18 +245,21 @@ def getArticle(article_id):
 @rgz.route("/rgz/initiative/<int:article_id>/delete", methods=['POST'])
 @login_required
 def deleteArticle(article_id):
-    selected_initiative = initiative.query.get(article_id)
+    # Check if the request method is overridden to DELETE
+    if request.form.get('_method') == 'DELETE':
+        selected_initiative = initiative.query.get(article_id)
 
-    if not selected_initiative:
-        return "Статья не найдена", 404
+        if not selected_initiative:
+            return "Статья не найдена", 404
 
-    if selected_initiative.user_id != current_user.id:
-        return "Вы не можете удалить эту статью", 403
+        if selected_initiative.user_id != current_user.id:
+            return "Вы не можете удалить эту статью", 403
 
-    db.session.delete(selected_initiative)
-    db.session.commit()
-    return redirect(url_for('rgz.art'))
+        db.session.delete(selected_initiative)
+        db.session.commit()
+        return redirect(url_for('rgz.art')), 204
 
+    return "Метод не разрешен", 405
 
 
 @rgz.route('/rgz/initiative/<int:article_id>/vote', methods=['POST']) # Голосование

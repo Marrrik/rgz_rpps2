@@ -8,7 +8,7 @@ import os
 
 app = Flask(__name__)
 
-load_dotenv()  # Загрузка переменных из .env
+load_dotenv() 
 
 app.secret_key = os.getenv("APP_SECRET_KEY", "default_secret_key")
 user_db = os.getenv('USER_DB', 'default_user')
