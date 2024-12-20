@@ -42,8 +42,3 @@ app.register_blueprint(rgz)
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-
-
-
-
