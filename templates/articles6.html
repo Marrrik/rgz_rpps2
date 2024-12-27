@@ -10,7 +10,7 @@
         Статья
     </div>
     <div class="container">
-        <a href="/rgz/initiative">Посмотреть статьи</a>
+        <a href="/rgz/artic">Посмотреть статьи</a>
         <a href="/rgz/newarticle">Создать статью</a>
     </div>
     <form action="/rgz/logout">
@@ -33,36 +33,27 @@
 </div>
 
 <!-- Вывод списка инициатив -->
-{% for initiative in initiatives.items %}
+{% for articl in articles.items %}
 <li>
     <div>
         <h3>статья №{{ loop.index }}</h3>
-        <p>{{ initiative.title }}</p>
-        <p>Дата создания: {{ initiative.date_created }}</p>
-        <p>Автор: {{ initiative.user.username }}</p>
-        <p>Голосов "За": {{ initiative.likes if initiative.likes is not none else 0 }}</p>
-        <p>Голосов "Против": {{ -initiative.likes if initiative.likes is not none else 0 }}</p>
-        <p>Общее количество голосов: {{ initiative.likes or 0 }}</p>
-        <a href="{{ url_for('rgz.getArticle', article_id=initiative.id) }}" class="btn btn-info">
+        <p>{{ articl.title }}</p>
+        <p>Дата создания: {{ articl.date_created }}</p>
+        <p>Автор: {{ articl.user.username }}</p>
+        <a href="{{ url_for('getArticle', article_id=articl.id) }}" class="btn btn-info">
             Перейти к статье
         </a>
-        {% if current_user.is_authenticated %}
-        <form action="{{ url_for('rgz.vote', article_id=initiative.id) }}" method="POST">
-            <input type="hidden" name="_method" value="POST">
-            <button type="submit" name="vote" value="up" class="btn btn-success">За</button>
-            <button type="submit" name="vote" value="down" class="btn btn-danger">Против</button>
-        </form>
-        {% endif %}
+        
                 <!-- Кнопка для редактирования (отображается только для автора статьи) -->
-                {% if current_user.id == initiative.user_id %}
-                <form action="{{ url_for('rgz.editArticle', article_id=initiative.id) }}" method="POST">
+            {% if current_user.id == articl.user_id %}
+                <form action="{{ url_for('editArticle', article_id=articl.id) }}" method="POST">
                     <input type="hidden" name="_method" value="PUT">
                     <input type="text" name="title" placeholder="Введите заголовок">
                     <textarea name="text" placeholder="Введите текст"></textarea>
                     <button type="submit">Редактировать</button>
                 </form>
                 <!-- Кнопка удаления статьи (отображается только для автора статьи) -->
-                <form action="{{ url_for('rgz.deleteArticle', article_id=initiative.id) }}" method="POST">
+                <form action="{{ url_for('deleteArticle', article_id=articl.id) }}" method="POST">
                     <input type="hidden" name="_method" value="DELETE">
                     <button type="submit" class="btn btn-danger">Удалить</button>
                 </form>
@@ -73,8 +64,8 @@
 
 <!-- Пагинация -->
 <div class="more-initiatives">
-    {% if initiatives.has_next %}
-        <a href="{{ url_for('rgz.getInitiatives', page=initiatives.next_num) }}">Еще</a>
+    {% if articles.has_next %}
+        <a href="{{ url_for('getArticle', page=articles.next_num) }}">Еще</a>
     {% endif %}
 </div>
 

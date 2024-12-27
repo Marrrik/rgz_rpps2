@@ -1,10 +1,10 @@
 {% block main %}
-<link rel="stylesheet" href="{{ url_for('static', filename='rgz.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='rgz.css') }}">
 
 <div>
     <div style="display: inline; color: rgb(75, 75, 251); height: 30px; font-size: 16pt; font-weight: bold;">База знаний</div>
     <div class="container">
-        <a href="/rgz/initiative">Посмотреть статьи</a>
+        <a href="/rgz/artic">Посмотреть статьи</a>
         <a href="/rgz/newarticle">Создать статью</a>
     </div>
     <form action="/rgz/login">
@@ -14,13 +14,12 @@
         <button class="button1" type="submit">Регистрация</button>
     </form>
     {% if current_user.username %}
-        <div style="font-weight: bold; margin-left: 1%;">
-            {{ current_user.username }}
-        </div>
+        <div style="font-weight: bold; margin-left: 1%;">{{ current_user.username }}</div>
     {% else %}
         <div style="font-weight: bold;">Anon</div>
     {% endif %}
 </div>
+
 {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
         <div class="flashes">
@@ -32,26 +31,24 @@
 {% endwith %}
 
 <div>
-    <h1>{{ title }}</h1>
-    <div>{{ title_text }}</div>
+    <h1>{{ article.title }}</h1>
+    <div>{{ article.article_text }}</div>
 </div>
-<!-- Форма добавления комментария -->
+
 {% if current_user.is_authenticated %}
-    <form action="{{ url_for('rgz.addComment') }}" method="POST">
-        <input type="hidden" name="article_id" value="{{ initiative.id }}">
+    <form action="{{ url_for('addComment') }}" method="POST">
+        <input type="hidden" name="article_id" value="{{ article.id }}">
         <textarea name="text" placeholder="Напишите комментарий" required></textarea>
         <button type="submit" class="btn btn-primary">Добавить комментарий</button>
     </form>
 {% endif %}
 
-<!-- Список комментариев -->
 <div class="comments">
-    {% for comment in initiative.comments %}
+    {% for comment in article.comments %}
         <div class="comment">
             <p><b>{{ comment.user.username }}</b>: {{ comment.text }}</p>
             <p><small>{{ comment.date_created }}</small></p>
         </div>
     {% endfor %}
 </div>
-
 {% endblock %}
